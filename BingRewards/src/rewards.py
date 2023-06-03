@@ -43,6 +43,8 @@ class Rewards:
     cookieclearquiz = 0
     _ON_POSIX = "posix" in sys.builtin_module_names
 
+    isAlreadyLogged = False
+
     messengers: List[BaseMessenger]
 
     def __init__(
@@ -181,7 +183,8 @@ class Rewards:
             finally:
                 try:
                     WebDriverWait(self.driver, self.__WEB_DRIVER_WAIT_LONG).until(
-                        EC.element_to_be_clickable((By.ID, "KmsiCheckboxField"))
+                        EC.element_to_be_clickable(
+                            (By.ID, "KmsiCheckboxField"))
                     ).click()
                 except TimeoutException:
                     self.print_page_content()
@@ -325,6 +328,7 @@ class Rewards:
 
         self.__set_ms_market()
         self.__sys_out("Successfully logged in", 2, True)
+        self.isAlreadyLogged = True
 
     def __check_dashboard_url(self, current_url, final_url_regex_pattern):
         """
@@ -875,7 +879,8 @@ class Rewards:
 
                 answer1 = self.driver.find_element(By.ID, "rqAnswerOption0")
                 answer1_title = answer1.get_attribute("data-option")
-                answer1_code = get_answer_code(answer_encode_key, answer1_title)
+                answer1_code = get_answer_code(
+                    answer_encode_key, answer1_title)
 
                 answer2 = self.driver.find_element(By.ID, "rqAnswerOption1")
 
@@ -1041,7 +1046,8 @@ class Rewards:
                             EC.visibility_of_element_located(
                                 (
                                     By.ID,
-                                    "rqAnswerOption{0}".format(to_option_index),
+                                    "rqAnswerOption{0}".format(
+                                        to_option_index),
                                 )
                             )
                         )
@@ -1249,7 +1255,8 @@ class Rewards:
                     ).click()
                 elif len(self.driver.find_elements(By.CLASS_NAME, "wk_button")) > 0:
                     WebDriverWait(self.driver, self.__WEB_DRIVER_WAIT_SHORT).until(
-                        EC.element_to_be_clickable((By.CLASS_NAME, "wk_button"))
+                        EC.element_to_be_clickable(
+                            (By.CLASS_NAME, "wk_button"))
                     ).click()
                 elif len(self.driver.find_elements(By.ID, "check")) > 0:
                     WebDriverWait(self.driver, self.__WEB_DRIVER_WAIT_SHORT).until(
@@ -1848,7 +1855,7 @@ class Rewards:
             self.driver = self.driver_factory.get_driver(
                 device_type, self.headless, self.cookies, self.nosandbox, self.proxy
             )
-            if not skip_login:
+            if not skip_login and not self.isAlreadyLogged:
                 self.__login()
         except Exception as e:
             try:
@@ -1871,7 +1878,8 @@ class Rewards:
                 self.__get_driver(mandatory_device_type)
             completion = action(**action_kwargs)
             if completion:
-                self.__sys_out(f"Successfully completed {description}", 1, True)
+                self.__sys_out(
+                    f"Successfully completed {description}", 1, True)
             else:
                 self.__sys_out(f"Failed to complete {description}", 1, True)
 
