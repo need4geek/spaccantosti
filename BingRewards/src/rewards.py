@@ -328,7 +328,7 @@ class Rewards:
 
         self.__set_ms_market()
         self.__sys_out("Successfully logged in", 2, True)
-        self.isAlreadyLogged = True
+        self.isAlreadyLogged = self.cookies
 
     def __check_dashboard_url(self, current_url, final_url_regex_pattern):
         """
