@@ -48,6 +48,21 @@ jobs:
             echo $json >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
           fi
+  notify:
+    name: Notify start
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs:
+      - DefineMatrix
+    steps:
+      - name: Notify to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_USERID }}
+          token: ${{ secrets.TELEGRAM_API_TOKEN }}
+          message: |
+            Job started!
+
   # ------------------------
   # deploy a container for the job
   wasabi:
@@ -213,4 +228,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_USERID }}
           token: ${{ secrets.TELEGRAM_API_TOKEN }}
           message: |
-            Job for account 8 - folatoesenti was executed!
+            Job was executed!
