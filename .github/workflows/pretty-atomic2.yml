@@ -204,7 +204,7 @@ jobs:
         timeout-minutes: 30
         run: |
           echo "$(date) | INFO  | Starting wasabi"      
-          python BingRewards/BingRewards.py -r -hl -c -gs \
+          python BingRewards/BingRewards.py -r -hl -nc -gs \
           -e '${{ steps.sets-secrets.outputs.secret-user }}' \
           -p '${{ steps.sets-secrets.outputs.secret-pass }}' \
           -d chrome \

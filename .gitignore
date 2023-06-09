@@ -1,0 +1,7 @@
+.vscode/launch.json
+BingRewards/config/config_multiple_accounts.json
+BingRewards/__pycache__
+BingRewards/src/__pycache__
+BingRewards/stored_browser_data
+BingRewards/logs
+BingRewards/drivers
