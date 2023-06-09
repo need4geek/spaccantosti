@@ -18,6 +18,8 @@ from selenium.common.exceptions import (
     SessionNotCreatedException,
     WebDriverException,
 )
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import re
 import random
 import string
@@ -151,7 +153,8 @@ class DriverFactory(ABC):
 
         driver_path = os.path.join(cls.DRIVERS_DIR, cls.driver_name)
         try:
-            os.rename(os.path.join(extracted_dir, cls.driver_name), driver_path)
+            os.rename(os.path.join(extracted_dir,
+                      cls.driver_name), driver_path)
         # for Windows
         except FileExistsError:
             os.replace(os.path.join(extracted_dir,
@@ -283,7 +286,9 @@ chrome.webRequest.onAuthRequired.addListener(
             # Instantiate before dling bc driver may already exist
             try:
                 if os.path.exists(driver_path):
-                    driver = cls.WebDriverCls(driver_path, options=options)
+                    driver = webdriver.Chrome(service=Service(
+                        ChromeDriverManager().install()), options=options)
+                    # driver = cls.WebDriverCls(driver_path, options=options)
                     return Driver(driver, EventListener(), device)
 
             except SessionNotCreatedException as se:
