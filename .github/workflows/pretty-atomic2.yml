@@ -48,7 +48,7 @@ jobs:
             echo $json >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
           fi
-  notify:
+  notifyStart:
     name: Notify start
     runs-on: ubuntu-latest
     continue-on-error: true
